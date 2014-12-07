@@ -40,3 +40,6 @@ def gen_answer():
 
 def sort_dict(orig):
     return sorted(orig.iteritems(), key=lambda item:item[0])
+
+def mean(lst):
+    return sum(lst)/len(lst)

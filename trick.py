@@ -186,11 +186,22 @@ def predict_by_random(p):
 def calc_avg_score(full_data, step):
     avg = []
 
-    groups = len(full_data) - 1 - step
+    groups = len(full_data) + 1 - step
     for start in range(groups):
         p = Cloze(full_data[start:start+step])
         avg.append(0.5*sum(p.trend_freq)/step)
     return avg
+
+def avg_trend(filename):
+    avgs = []
+    orig_data = read_data(filename)
+    for i in range(1, len(orig_data)+1):
+        avgs.append(util.mean(calc_avg_score(orig_data, i)))
+    plt.cla()
+    plt.plot(avgs, '-*')
+    plt.title('avg trend with years of source data')
+    save_name = os.path.join(BASE_DIR, 'figures/avg_trend_by_years.png')
+    plt.savefig(save_name, dpi=96)
 
 def run():
 
@@ -201,8 +212,8 @@ def run():
     # predict_by_most_freq(p)
     # predict_by_random(p)
 
-    orig_data = read_data(filename)
-    print calc_avg_score(orig_data, 5)
+    avg_trend(filename)
+
 
 if __name__ == "__main__":
     run()

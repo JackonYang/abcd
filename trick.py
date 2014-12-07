@@ -150,11 +150,13 @@ def predict_by_most_freq_total(p):
     # plt.show()  # for debug
 
     print util.cutting_line('完型填空历年出现频率最高选项与次数')
+    header = '题号 | 次数 | 选项'
+    print header
     for i in range(20):
         if p.trend_answer_head[i] == p.trend_answer_tail[i]:
-            print p.trend_freq[i], p.trend_answer_head[i]
+            print '%s | %s | %s' % (i+1, p.trend_freq[i], p.trend_answer_head[i])
         else:
-            print p.trend_freq[i], '%s/%s' % (p.trend_answer_head[i], p.trend_answer_tail[i])
+            print '%s | %s | %s' % (i+1, p.trend_freq[i], '%s/%s' % (p.trend_answer_head[i], p.trend_answer_tail[i]))
 
 
 def predict_by_random(p):

@@ -17,10 +17,7 @@ def read_data(file_name, has_reading=False):
                 item.extend(read_a)
                 item.extend(read_b)
             data[year] = item
-    return data
-
-def sort_dict(orig):
-    return sorted(orig.iteritems(), key=lambda item:item[0])
+    return util.sort_dict(data)
 
 def prob(one_answer):
     """ 统计一组答案中, 各选项出现概率 """
@@ -47,7 +44,7 @@ def calc_freq(data):
             count[ch][i] += 1
         _wrap()
 
-    for answer in data.values():
+    for year, answer in data:
         for i in range(len(answer)):
             add(answer[i], i)
     return count
@@ -63,25 +60,25 @@ def outline(datafile):
         return str(lst).strip('[]')
 
     print 'year | total | Cloze | Reading A'
-    for year, answer in sort_dict(data):
+    for year, answer in data:
         print '%s | %s | %s | %s' % (year, fmt(prob(answer[:40])), fmt(prob(answer[:20])), fmt(prob(answer[20:40])))
 
     print util.cutting_line('完型各选项出现次数统计')
     count = calc_freq(data)
-    for answer, fq in sort_dict(count):
+    for answer, fq in util.sort_dict(count):
         print answer, fq[:20]
 
 
 class Cloze:
     """ 完型填空分析与预测 """
 
-    def __init__(self, datafile='data/data.txt'):
+    def __init__(self, data=read_data('data/data.txt')):
         self.probs = 20  # len(data.values()[0]) 20 个完型填空题
-        self.std_answer = read_data(datafile)
+        self.std_answer = data
         self.most_freq()
 
     def predict(self, my_answer, fig=None):
-        scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
+        scores = [util.calc_score(my_answer, one_answer) for year, one_answer in self.std_answer]
 
         if fig:
             plt.sca(fig)
@@ -97,7 +94,7 @@ class Cloze:
         self.trend_freq = [0] * self.probs
         self.trend_answer_head = ['Z'] * self.probs
         self.trend_answer_tail = ['Z'] * self.probs
-        for answer, fq in sort_dict(count):
+        for answer, fq in util.sort_dict(count):
             for i in range(self.probs):
                 if fq[i] > self.trend_freq[i]:
                     self.trend_freq[i] = fq[i]
@@ -153,6 +150,7 @@ def predict_by_most_freq_total(p):
     # plt.show()  # for debug
 
     print util.cutting_line('完型填空历年出现频率最高选项与次数')
+    print sum(p.trend_freq)
     header = '题号 | 次数 | 选项'
     print header
     for i in range(20):
@@ -184,7 +182,7 @@ def predict_by_random(p):
     print ', '.join(ans2)
     print ', '.join(ans3)
     print ', '.join(ans4)
-    plt.show()
+    #plt.show()
 
 
 def run():

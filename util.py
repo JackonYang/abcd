@@ -37,3 +37,6 @@ def gen_answer():
     for i in range(20):
         answer.append(int2ch(random.randrange(1, 5, 1)))
     return answer
+
+def sort_dict(orig):
+    return sorted(orig.iteritems(), key=lambda item:item[0])

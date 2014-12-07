@@ -2,14 +2,15 @@
 from util import print_cutting_line
 import matplotlib.pyplot as plt
 
-def read_data(file_name):
+def read_data(file_name, has_reading=False):
     data = dict()
     with open(file_name) as f:
         for line in f.readlines():
             year, cloze, read_a, read_b = line.strip().split(' ')
             item = list(cloze)
-            item.extend(read_a)
-            item.extend(read_b)
+            if has_reading:
+                item.extend(read_a)
+                item.extend(read_b)
             data[year] = item
     return data
 
@@ -27,10 +28,11 @@ def prob(item):
 
     for ch in item:
         add(ch)
-    return [res['A'], res['B'], res['C'], res['D']]
+    return [res.get('A', 0), res.get('B', 0), res.get('C', 0), res.get('D', 0)]
 
 @print_cutting_line
-def outline(data):
+def outline(datafile):
+    data = read_data(datafile, has_reading=True)
     for year, answer in sort_dict(data):
         print year, 'total: ', prob(answer[:40]),\
             '\tcloze: ', prob(answer[:20]),\
@@ -123,8 +125,10 @@ def predict(answer, data):
 
 
 def run():
-    data = read_data('data/data.txt')
-    outline(data)
+    filename = 'data/data.txt'
+    outline(filename)
+
+    data = read_data(filename)
     freq(data)
     # most_freq_trend(read_data('data/data.txt'))
     predict(most_freq(data), data)

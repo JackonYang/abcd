@@ -129,9 +129,6 @@ def run():
     filename = 'data/data.txt'
     outline(filename)
 
-    data = read_data(filename)
-    # most_freq_trend(read_data('data/data.txt'))
-
     p = Cloze(filename)
 
     answer = [(i, p.trend_answer_head[i])

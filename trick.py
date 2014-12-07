@@ -149,6 +149,13 @@ def predict_by_most_freq_total(p):
 
     # plt.show()  # for debug
 
+    print util.cutting_line('完型填空历年出现频率最高选项与次数')
+    for i in range(20):
+        if p.trend_answer_head[i] == p.trend_answer_tail[i]:
+            print p.trend_freq[i], p.trend_answer_head[i]
+        else:
+            print p.trend_freq[i], '%s/%s' % (p.trend_answer_head[i], p.trend_answer_tail[i])
+
 
 def predict_by_random(p):
     ans1 = util.gen_answer()
@@ -167,10 +174,11 @@ def predict_by_random(p):
     p.predict(ans3, ans3_plot)
     p.predict(ans4, ans4_plot)
 
-    print ans1
-    print ans2
-    print ans3
-    print ans4
+    print util.cutting_line('random 产生答案')
+    print ', '.join(ans1)
+    print ', '.join(ans2)
+    print ', '.join(ans3)
+    print ', '.join(ans4)
     plt.show()
 
 
@@ -181,7 +189,7 @@ def run():
 
     p = Cloze()
 
-    predict_by_most_freq(p)
+    # predict_by_most_freq(p)
     predict_by_most_freq_total(p)
     predict_by_random(p)
 

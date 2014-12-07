@@ -109,10 +109,44 @@ D | 0 | 4 | 3 | 1 | 1 | 1 | 4 | 3 | 3 | 2 | 3 | 2 | 3 | 4 | 3 | 3 | 2 | 2 | 1 | 
 19 | 4 | A/B
 20 | 4 | D
 
-取如下 2 组选项作为答案, 与历年标准答案比较, 得分情况如图:
+取如下 2 组选项作为答案, 与历年标准答案比较.
+
+平均得分 3.7 左右,
+最低分 2.5.
+最高 5.5.
+
+2 组答案和详细得分情况如下:
+
 ```shell
 A, B, A, C, C, A, D, A, B, A, C, A, A, C, B, C, A, C, A, D
 B, D, D, C, C, B, D, D, D, C, D, C, D, C, B, D, C, C, B, D
 ```
 
 ![scores](figures/predict_by_most_freq_total.png "top freq scores")
+
+
+#### 随机答案作为衡量预测准确度的参考标准
+
+利用随机数生生 4 组答案, 与历年标准答案比较,  
+平均得分 2.5 左右,  
+最低分 0.5 左右. 个别情况下出现 0 分.
+
+4 组答案和详细得分情况如下:
+
+```shell
+D, D, A, C, A, D, B, A, A, B, A, B, D, D, B, B, D, A, D, B
+C, B, A, D, C, C, C, B, D, C, A, C, D, C, D, C, C, A, A, B
+A, B, B, A, B, C, A, C, B, B, B, B, C, B, C, B, B, C, A, B
+A, D, D, B, A, A, C, A, D, C, C, B, A, B, B, A, A, B, C, D
+```
+
+![scores](figures/predict_by_random.png "random scores")
+
+#### _TODO_
+
+通过简单的对比可以发现,
+利用最大频数给出的答案, 明显优于随即组合或全蒙相同选项.
+
+所有答案序列的排列组合为 4^20, 运算量较大, 难以实现全遍历.
+
+可以通过遗传算法找更优解.

@@ -90,10 +90,44 @@ def most_freq_trend(data):
     plt.savefig('figures/most_freq_trend_head.png', dpi=96)
     # plt.show()
 
+
+def most_freq(data):
+    count = calc_freq(data)
+    probs = 20
+    #probs = len(data.values()[0])
+    trend_freq = [0] * probs
+    trend_answer_head = ['Z'] * probs
+    trend_answer_tail = ['Z'] * probs
+    for answer, fq in sort_dict(count):
+        for i in range(probs):
+            if fq[i] > trend_freq[i]:
+                trend_freq[i] = fq[i]
+                trend_answer_head[i] = answer
+                trend_answer_tail[i] = answer
+            if fq[i] == trend_freq[i]:
+                trend_answer_tail[i] = answer
+
+    return [(i, trend_answer_head[i])  for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]]
+
+def calc_score(answer, std):
+    score = 0
+    for i, ch in answer:
+        score += (std[i] == ch)
+    print score, len(answer)
+    return  10.0*score/len(answer)
+
+
+def predict(answer, data):
+    plt.plot([calc_score(answer, std) for year, std in sort_dict(data)])
+    plt.show()
+
+
 def run():
-    outline(read_data('data/data.txt'))
-    freq(read_data('data/data.txt'))
-    most_freq_trend(read_data('data/data.txt'))
+    data = read_data('data/data.txt')
+    outline(data)
+    freq(data)
+    # most_freq_trend(read_data('data/data.txt'))
+    predict(most_freq(data), data)
 
 if __name__ == "__main__":
     run()

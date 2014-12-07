@@ -1,5 +1,6 @@
 # -*- Encoding: utf-8 -*-
 import os
+import random
 import matplotlib.pyplot as plt
 
 from util import print_cutting_line
@@ -85,9 +86,9 @@ class Cloze:
         else:
             plt.figure()
         plt.plot(scores)
+        plt.title('avg score: %.2f' % (sum(scores) / len(scores)))
         if not fig:
             plt.show()
-        return sum(scores) / len(scores)
 
     def most_freq(self):
         count = calc_freq(self.std_answer)
@@ -110,25 +111,51 @@ def predict_by_most_freq(p):
             for i in range(p.probs)
             if p.trend_answer_head[i] == p.trend_answer_tail[i]]
 
-    plt.figure(1)
+    plt.cla()
     score_plot = plt.subplot(221)
     same_trend_plot = plt.subplot(222)
     tail_plot = plt.subplot(223)
     head_plot = plt.subplot(224)
 
     p.predict(answer, score_plot)
+
     plt.sca(same_trend_plot)
     x = [i for i, ch in answer]
     y = [util.ch2int(ch) for i, ch in answer]
     plt.plot(x, y, 'r-*')
+
     plt.sca(tail_plot)
     plt.plot([util.ch2int(i)  for i in p.trend_answer_tail[:40]], 'b*-')
     plt.sca(head_plot)
     plt.plot([util.ch2int(i)  for i in p.trend_answer_head[:40]], 'r*-')
+
     save_name = os.path.join(BASE_DIR, 'figures/predict_by_most_freq.png')
     plt.savefig(save_name, dpi=96)
     print 'figure saved in %s' % save_name
+
     # plt.show()  # for debug
+
+@print_cutting_line
+def predict_by_most_freq_total(p):
+    plt.cla()
+    head_plot = plt.subplot(121)
+    tail_plot = plt.subplot(122)
+
+    p.predict(p.trend_answer_head, head_plot)
+    p.predict(p.trend_answer_tail, tail_plot)
+
+    save_name = os.path.join(BASE_DIR, 'figures/predict_by_most_freq_total.png')
+    plt.savefig(save_name, dpi=96)
+    print 'figure saved in %s' % save_name
+
+    # plt.show()  # for debug
+
+
+def predict_by_random(p):
+    answer = []
+    for i in range(20):
+        answer.append(random.randrange(1, 5, 1))
+    p.predict(answer)
 
 
 def run():
@@ -138,16 +165,8 @@ def run():
 
     p = Cloze(filename)
 
-    # predict_by_most_freq(p)
-
-    plt.figure(2)
-    head_plot = plt.subplot(121)
-    tail_plot = plt.subplot(122)
-    a = p.predict(p.trend_answer_head, head_plot)
-    b = p.predict(p.trend_answer_tail, tail_plot)
-    print 'avg: %.2f, %.2f' % (a, b)
-    plt.show()
-
+    predict_by_most_freq(p)
+    predict_by_most_freq_total(p)
 
 if __name__ == "__main__":
     run()

@@ -203,17 +203,42 @@ def avg_trend(filename):
     save_name = os.path.join(BASE_DIR, 'figures/avg_trend_by_years.png')
     plt.savefig(save_name, dpi=96)
 
+def best_accuracy(full_data, step):
+    groups = len(full_data) - step
+    scores = []
+    for start in range(groups-1, -1, -1):
+        p = Cloze(full_data[start:start+step])
+        # plt.cla()
+        # head_plot = plt.subplot(121)
+        # tail_plot = plt.subplot(122)
+        score = 0
+        year, std_answer = full_data[start+step]
+        for std, ans1, ans2 in zip(std_answer, p.trend_answer_head, p.trend_answer_tail):
+            score += (std == ans1 or std == ans2)
+        scores.append(score*0.5)
+
+    return scores
+
+@print_cutting_line
+def best_accuracy_trend(full_data):
+    for step in range(3, 10):
+        print '%s years a group, scores: %s' % (step, str(best_accuracy(full_data, step)).strip('[]'))
+
+
+
 def run():
 
     filename = os.path.join(BASE_DIR, 'data/data.txt')
+    full_data = read_data(filename)
     #outline(filename)
 
     # p = Cloze()
     # predict_by_most_freq(p)
     # predict_by_random(p)
 
-    avg_trend(filename)
+    # avg_trend(filename)
 
+    best_accuracy_trend(full_data)
 
 if __name__ == "__main__":
     run()

@@ -30,6 +30,41 @@ abcd
 $ python trick.py
 ```
 
+#### 近 10 年完型填空各题频率最高选项与次数
+
+第 1 题 `4, A/B` 表示 A, B 选项出现概率最高, 各 4 次. 即 C, D 共出现 2 次.
+
+题号 | 次数 | 选项
+---- | ---- | ----
+1 | 4 | A/B
+2 | 4 | B/D
+3 | 3 | A/D
+4 | 4 | C
+5 | 5 | C
+6 | 4 | A/B
+7 | 4 | D
+8 | 3 | A/D
+9 | 3 | B/D
+10 | 3 | A/C
+11 | 3 | C/D
+12 | 3 | A/C
+13 | 3 | A/D
+14 | 5 | C
+15 | 4 | B
+16 | 3 | C/D
+17 | 3 | A/C
+18 | 5 | C
+19 | 4 | A/B
+20 | 4 | D
+
+取如下 2 组选项作为答案, 与历年标准答案比较, 得分情况如图:
+```shell
+A, B, A, C, C, A, D, A, B, A, C, A, A, C, B, C, A, C, A, D
+B, D, D, C, C, B, D, D, D, C, D, C, D, C, B, D, C, C, B, D
+```
+
+![scores](figures/predict_by_most_freq_total.png "top freq scores")
+
 
 英语
 ----

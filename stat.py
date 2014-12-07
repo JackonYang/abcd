@@ -35,8 +35,7 @@ def outline(data):
             '\tcloze: ', prob(answer[:20]),\
             '\tread_a: ', prob(answer[20:40])
 
-@print_cutting_line
-def freq(data):
+def calc_freq(data):
     count = dict()
 
     def add(ch, i):
@@ -49,7 +48,11 @@ def freq(data):
     for answer in data.values():
         for i in range(len(answer)):
             add(answer[i], i)
+    return count
 
+@print_cutting_line
+def freq(data):
+    count = calc_freq(data)
     for answer, fq in sort_dict(count):
         print answer, fq
 

@@ -17,3 +17,6 @@ def calc_score(my_answer, std_answer):
     for i, ch in my_answer:
         score += (std_answer[i] == ch)
     return 10.0*score/len(my_answer)
+
+def ch2int(ch):
+    return ord(ch) - ord('A') + 1

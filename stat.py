@@ -71,11 +71,14 @@ class Cloze:
         self.std_answer = read_data(datafile)
         self.most_freq()
 
-    def predict(self, my_answer):
+    def predict(self, my_answer, fig=None):
         scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
 
+        if fig:
+            plt.sca(fig)
         plt.plot(scores)
-        plt.show()
+        if not fig:
+            plt.show()
 
     def most_freq(self):
         count = calc_freq(self.std_answer)
@@ -92,37 +95,29 @@ class Cloze:
                     self.trend_answer_tail[i] = answer
 
 @print_cutting_line
-def most_freq_trend(data):
-    count = calc_freq(data)
-    probs = len(data.values()[0])
-    trend_freq = [0] * probs
-    trend_answer_head = ['Z'] * probs
-    trend_answer_tail = ['Z'] * probs
-    for answer, fq in sort_dict(count):
-        for i in range(probs):
-            if fq[i] > trend_freq[i]:
-                trend_freq[i] = fq[i]
-                trend_answer_head[i] = answer
-                trend_answer_tail[i] = answer
-            if fq[i] == trend_freq[i]:
-                trend_answer_tail[i] = answer
-    print ', '.join(trend_answer_head)
-    print ', '.join(trend_answer_tail)
-    print trend_freq
+def predict_by_most_freq(p):
 
-    print ', '.join(['%2d' % (i+1) for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
-    print ', '.join(['%2d' % trend_freq[i] for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
-    print ', '.join([' %s' % trend_answer_head[i] for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
-    print prob(trend_answer_head), prob(trend_answer_tail)
+    answer = [(i, p.trend_answer_head[i])
+            for i in range(p.probs)
+            if p.trend_answer_head[i] == p.trend_answer_tail[i]]
 
     plt.figure(1)
-    plt.plot([ord(i) - ord('A') + 1 for i in trend_answer_tail[:40]], 'b*-')
-    plt.savefig('figures/most_freq_trend_tail.png', dpi=96)
-    plt.cla()
-    plt.figure(2)
-    plt.plot([ord(i) - ord('A') + 1 for i in trend_answer_head[:40]], 'r*-')
-    plt.savefig('figures/most_freq_trend_head.png', dpi=96)
-    # plt.show()
+    score_plot = plt.subplot(221)
+    same_trend_plot = plt.subplot(222)
+    tail_plot = plt.subplot(223)
+    head_plot = plt.subplot(224)
+
+    p.predict(answer, score_plot)
+    plt.sca(same_trend_plot)
+    x = [i for i, ch in answer]
+    y = [util.ch2int(ch) for i, ch in answer]
+    plt.plot(x, y, 'r-*')
+    plt.sca(tail_plot)
+    plt.plot([util.ch2int(i)  for i in p.trend_answer_tail[:40]], 'b*-')
+    plt.sca(head_plot)
+    plt.plot([util.ch2int(i)  for i in p.trend_answer_head[:40]], 'r*-')
+    plt.savefig('figures/predict_by_most_freq.png', dpi=96)
+    # plt.show()  # for debug
 
 
 def run():
@@ -131,11 +126,8 @@ def run():
 
     p = Cloze(filename)
 
-    answer = [(i, p.trend_answer_head[i])
-            for i in range(p.probs)
-            if p.trend_answer_head[i] == p.trend_answer_tail[i]]
+    predict_by_most_freq(p)
 
-    p.predict(answer)
 
 if __name__ == "__main__":
     run()

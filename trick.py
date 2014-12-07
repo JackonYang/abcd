@@ -150,7 +150,6 @@ def predict_by_most_freq_total(p):
     # plt.show()  # for debug
 
     print util.cutting_line('完型填空历年出现频率最高选项与次数')
-    print sum(p.trend_freq)
     header = '题号 | 次数 | 选项'
     print header
     for i in range(20):
@@ -184,17 +183,26 @@ def predict_by_random(p):
     print ', '.join(ans4)
     #plt.show()
 
+def calc_avg_score(full_data, step):
+    avg = []
+
+    groups = len(full_data) - 1 - step
+    for start in range(groups):
+        p = Cloze(full_data[start:start+step])
+        avg.append(0.5*sum(p.trend_freq)/step)
+    return avg
 
 def run():
 
     filename = os.path.join(BASE_DIR, 'data/data.txt')
-    outline(filename)
+    #outline(filename)
 
-    p = Cloze()
-
+    # p = Cloze()
     # predict_by_most_freq(p)
-    predict_by_most_freq_total(p)
-    predict_by_random(p)
+    # predict_by_random(p)
+
+    orig_data = read_data(filename)
+    print calc_avg_score(orig_data, 5)
 
 if __name__ == "__main__":
     run()

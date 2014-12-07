@@ -10,10 +10,28 @@ def read_data(file_name):
             data[year] = item
     return data
 
+def sort_dict(orig):
+    return sorted(orig.iteritems(), key=lambda item:item[0])
+
+def prob(item):
+    res = dict()
+    def add(ch):
+        if ch in res:
+            res[ch] += 1
+        else:
+            res[ch] = 1
+    for ch in item:
+        add(ch)
+    return [res['A'], res['B'], res['C'], res['D']]
+
+def outline(data):
+    for year, answer in sort_dict(data):
+        print year, 'total: ', prob(answer[:40]),\
+            '\tcloze: ', prob(answer[:20]),\
+            '\tread_a: ', prob(answer[20:40])
+
 def run():
-    data = read_data('data/data.txt')
-    for k, v in data.items():
-        print k, len(v)
+    outline(read_data('data/data.txt'))
 
 if __name__ == "__main__":
     run()

@@ -27,8 +27,9 @@ abcd
 运行:
 
 ```shell
-$ python stat.py
+$ python trick.py
 ```
+
 
 英语
 ----

@@ -30,7 +30,59 @@ abcd
 $ python trick.py
 ```
 
-#### 近 10 年完型填空各题频率最高选项与次数
+英语完型分析
+------------
+
+#### 历年答案
+
+年份 | 完型 | 阅读 A | 阅读 B
+---- | ---- | ------ | ------
+2005 | CBACBADADBCADCDBCDAB | CBACBCDADBACDDABDABC | ECGFB
+2006 | ABDADCBCAACBDCCABCAD | CACDBABCDDCACDBDBDBA | CABFD
+2007 | BDACCDBABCADACBDCABD | CBADCDCAABCBDCBDABAD | FDBCE
+2008 | BDACCABDBCBDACDDCABA | ADCBDDCAABACBDCDBCAB | DGACE
+2009 | BADBCADCBDDBCDACBAAC | CDADAACDABDBBCCBBDAC | CEABG
+2010 | ABCBCBDACDCAADBADCBD | BCDAADDCBABDACCADCBA | BFDGA
+2011 | CDBBABADCABCDCBDADAC | CBDBABDCACDCBAACDADB | BDACF
+2012 | BABDCBDBABACCDACACDD | DBACDCDADAABBDDCDBCA | CDAFG
+2013 | ADCABBADDADCBDBCACBC | BDADCBDCADBADCCCCDAD | EFBGC
+2014 | ABDCAACBDCDABADBDCCB | BCDADDCBACDBBAAACCDB | CFGDB
+
+#### 历年答案 ABCD 比例分布均匀
+
+D 概率相对高了一丢丢  
+06 年, 没有等概率分布, D 在阅读题中的概率高了一丢丢.  
+12, 13 年, 没有等概率分布, D 在阅读中的概率高了 2 丢丢.
+
+year | total | Cloze | Reading A
+---- | ----- | ----- | ---------
+2005 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+2006 | 10, 9, 11, 10 | 6, 4, 6, 4 | 4, 5, 5, 6
+2007 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+2008 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+2009 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+2010 | 11, 9, 10, 10 | 5, 5, 5, 5 | 6, 4, 5, 5
+2011 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+2012 | 10, 9, 9, 12 | 5, 5, 5, 5 | 5, 4, 4, 7
+2013 | 9, 8, 11, 12 | 5, 5, 5, 5 | 4, 3, 6, 7
+2014 | 10, 10, 10, 10 | 5, 5, 5, 5 | 5, 5, 5, 5
+
+#### 完型各选项出现次数倾向性很强
+
+每题, 一般有 1-2 个选项出现概率非常高,  
+另外 2 个选项十年出现不足 3 次.  
+甚至, 个别选项从未出现过.
+
+各选项出现详细次数见下表
+
+    |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  |  10 |  11 |  12 |  13 |  14 |  15 |  16 |  17 |  18 |  19 |  20
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- 
+A | 4 | 2 | 3 | 2 | 2 | 4 | 2 | 3 | 2 | 3 | 2 | 3 | 3 | 1 | 2 | 2 | 3 | 3 | 4 | 1
+B | 4 | 4 | 2 | 3 | 2 | 4 | 3 | 2 | 3 | 2 | 2 | 2 | 2 | 0 | 4 | 2 | 2 | 0 | 4 | 2
+C | 2 | 0 | 2 | 4 | 5 | 1 | 1 | 2 | 2 | 3 | 3 | 3 | 2 | 5 | 1 | 3 | 3 | 5 | 1 | 3
+D | 0 | 4 | 3 | 1 | 1 | 1 | 4 | 3 | 3 | 2 | 3 | 2 | 3 | 4 | 3 | 3 | 2 | 2 | 1 | 4
+
+#### 各题频率最高选项与次数
 
 第 1 题 `4, A/B` 表示 A, B 选项出现概率最高, 各 4 次. 即 C, D 共出现 2 次.
 
@@ -64,59 +116,3 @@ B, D, D, C, C, B, D, D, D, C, D, C, D, C, B, D, C, C, B, D
 ```
 
 ![scores](figures/predict_by_most_freq_total.png "top freq scores")
-
-
-英语
-----
-
-#### 历年答案
-
-年份 | 完型 | 阅读 A | 阅读 B
----- | ---- | ------ | ------
-2005 | CBACBADADBCADCDBCDAB | CBACBCDADBACDDABDABC | ECGFB
-2006 | ABDADCBCAACBDCCABCAD | CACDBABCDDCACDBDBDBA | CABFD
-2007 | BDACCDBABCADACBDCABD | CBADCDCAABCBDCBDABAD | FDBCE
-2008 | BDACCABDBCBDACDDCABA | ADCBDDCAABACBDCDBCAB | DGACE
-2009 | BADBCADCBDDBCDACBAAC | CDADAACDABDBBCCBBDAC | CEABG
-2010 | ABCBCBDACDCAADBADCBD | BCDAADDCBABDACCADCBA | BFDGA
-2011 | CDBBABADCABCDCBDADAC | CBDBABDCACDCBAACDADB | BDACF
-2012 | BABDCBDBABACCDACACDD | DBACDCDADAABBDDCDBCA | CDAFG
-2013 | ADCABBADDADCBDBCACBC | BDADCBDCADBADCCCCDAD | EFBGC
-2014 | ABDCAACBDCDABADBDCCB | BCDADDCBACDBBAAACCDB | CFGDB
-
-
-#### 总体分布率
-
-ABCD 总体分布率, 基本是等概率分布
-
-1. D 概率相对高了一丢丢
-
-    - 06 年, 没有等概率分布, D 在阅读题中的概率高了一丢丢.
-    - 12, 13 年, 没有等概率分布, D 在阅读中的概率高了 2 丢丢.
-
-2. 具体到每一题, 在选项的分布上, 倾向性非常强.
-
-    一般有 2 个选项出现概率非常高, 另外 2 个选项十年出现不足 3 次. 甚至, 个别选项从未出现过.
-    
-
-```shell
-------------------------- 每年 ABCD 比例分布 -------------------------
-2005 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
-2006 total:  [10, 9, 11, 10]    cloze:  [6, 4, 6, 4]    read_a:  [4, 5, 5, 6]
-2007 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
-2008 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
-2009 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
-2010 total:  [11, 9, 10, 10]    cloze:  [5, 5, 5, 5]    read_a:  [6, 4, 5, 5]
-2011 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
-2012 total:  [10, 9, 9, 12]     cloze:  [5, 5, 5, 5]    read_a:  [5, 4, 4, 7]
-2013 total:  [9, 8, 11, 12]     cloze:  [5, 5, 5, 5]    read_a:  [4, 3, 6, 7]
-2014 total:  [10, 10, 10, 10]   cloze:  [5, 5, 5, 5]    read_a:  [5, 5, 5, 5]
---------------------------- 45 个选择题各选项出现次数统计 ---------------------------
-A [4, 2, 3, 2, 2, 4, 2, 3, 2, 3, 2, 3, 3, 1, 2, 2, 3, 3, 4, 1, 1, 1, 5, 2, 3, 2, 0, 4, 6, 2, 3, 2, 1, 2, 3, 2, 1, 2, 4, 3, 0, 1, 4, 0, 1]
-B [4, 4, 2, 3, 2, 4, 3, 2, 3, 2, 2, 2, 2, 0, 4, 2, 2, 0, 4, 2, 3, 4, 0, 2, 2, 2, 1, 1, 1, 4, 2, 4, 5, 0, 2, 2, 3, 2, 3, 3, 2, 0, 3, 1, 2]
-C [2, 0, 2, 4, 5, 1, 1, 2, 2, 3, 3, 3, 2, 5, 1, 3, 3, 5, 1, 3, 5, 2, 2, 2, 2, 2, 4, 4, 0, 2, 2, 3, 1, 4, 4, 3, 2, 3, 1, 2, 4, 1, 0, 3, 1]
-D [0, 4, 3, 1, 1, 1, 4, 3, 3, 2, 3, 2, 3, 4, 3, 3, 2, 2, 1, 4, 1, 3, 3, 4, 3, 4, 5, 1, 3, 2, 3, 1, 3, 4, 1, 3, 4, 3, 2, 2, 1, 3, 1, 1, 1]
-E [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 2]
-F [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 3, 1]
-G [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2]
-```

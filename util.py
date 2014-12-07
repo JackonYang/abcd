@@ -12,3 +12,8 @@ def print_cutting_line(func):
     return _wrap
 
 
+def calc_score(my_answer, std_answer):
+    score = 0
+    for i, ch in my_answer:
+        score += (std_answer[i] == ch)
+    return 10.0*score/len(my_answer)

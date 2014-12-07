@@ -1,5 +1,7 @@
 # -*- Encoding: utf-8 -*-
 from util import print_cutting_line
+import util
+
 import matplotlib.pyplot as plt
 
 def read_data(file_name, has_reading=False):
@@ -37,6 +39,20 @@ def outline(datafile):
         print year, 'total: ', prob(answer[:40]),\
             '\tcloze: ', prob(answer[:20]),\
             '\tread_a: ', prob(answer[20:40])
+
+
+
+class Cloze:
+
+    def __init__(self, datafile):
+        self.std_answer = read_data(datafile)
+
+    def predict(self, my_answer):
+        scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
+
+        plt.plot(scores)
+        plt.show()
+
 
 def calc_freq(data):
     count = dict()
@@ -111,17 +127,6 @@ def most_freq(data):
 
     return [(i, trend_answer_head[i])  for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]]
 
-def calc_score(answer, std):
-    score = 0
-    for i, ch in answer:
-        score += (std[i] == ch)
-    print score, len(answer)
-    return  10.0*score/len(answer)
-
-
-def predict(answer, data):
-    plt.plot([calc_score(answer, std) for year, std in sort_dict(data)])
-    plt.show()
 
 
 def run():
@@ -131,7 +136,9 @@ def run():
     data = read_data(filename)
     freq(data)
     # most_freq_trend(read_data('data/data.txt'))
-    predict(most_freq(data), data)
+
+    p = Cloze(filename)
+    p.predict(most_freq(data))
 
 if __name__ == "__main__":
     run()

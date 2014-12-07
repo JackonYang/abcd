@@ -58,15 +58,18 @@ def outline(datafile):
     data = read_data(datafile, has_reading=True)
 
     print util.cutting_line('历年答案 ABCD 比例分布')
-    for year, answer in sort_dict(data):
-        print year, 'total: ', prob(answer[:40]),\
-            '\tcloze: ', prob(answer[:20]),\
-            '\tread_a: ', prob(answer[20:40])
 
-    print util.cutting_line('历年各题目各选项出现次数统计')
+    def fmt(lst):
+        return str(lst).strip('[]')
+
+    print 'year | total | Cloze | Reading A'
+    for year, answer in sort_dict(data):
+        print '%s | %s | %s | %s' % (year, fmt(prob(answer[:40])), fmt(prob(answer[:20])), fmt(prob(answer[20:40])))
+
+    print util.cutting_line('完型各选项出现次数统计')
     count = calc_freq(data)
     for answer, fq in sort_dict(count):
-        print answer, fq
+        print answer, fq[:20]
 
 
 class Cloze:
@@ -187,7 +190,7 @@ def predict_by_random(p):
 def run():
 
     filename = os.path.join(BASE_DIR, 'data/data.txt')
-    # outline(filename)
+    outline(filename)
 
     p = Cloze()
 

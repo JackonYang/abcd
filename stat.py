@@ -1,5 +1,6 @@
 # -*- Encoding: utf-8 -*-
 from util import print_cutting_line
+import matplotlib.pyplot as plt
 
 def read_data(file_name):
     data = dict()
@@ -56,9 +57,43 @@ def freq(data):
     for answer, fq in sort_dict(count):
         print answer, fq
 
+@print_cutting_line
+def most_freq_trend(data):
+    count = calc_freq(data)
+    probs = len(data.values()[0])
+    trend_freq = [0] * probs
+    trend_answer_head = ['Z'] * probs
+    trend_answer_tail = ['Z'] * probs
+    for answer, fq in sort_dict(count):
+        for i in range(probs):
+            if fq[i] > trend_freq[i]:
+                trend_freq[i] = fq[i]
+                trend_answer_head[i] = answer
+                trend_answer_tail[i] = answer
+            if fq[i] == trend_freq[i]:
+                trend_answer_tail[i] = answer
+    print ', '.join(trend_answer_head)
+    print ', '.join(trend_answer_tail)
+    print trend_freq
+
+    print ', '.join(['%2d' % (i+1) for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
+    print ', '.join(['%2d' % trend_freq[i] for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
+    print ', '.join([' %s' % trend_answer_head[i] for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]])
+    print prob(trend_answer_head), prob(trend_answer_tail)
+
+    plt.figure(1)
+    plt.plot([ord(i) - ord('A') + 1 for i in trend_answer_tail[:40]], 'b*-')
+    plt.savefig('figures/most_freq_trend_tail.png', dpi=96)
+    plt.cla()
+    plt.figure(2)
+    plt.plot([ord(i) - ord('A') + 1 for i in trend_answer_head[:40]], 'r*-')
+    plt.savefig('figures/most_freq_trend_head.png', dpi=96)
+    # plt.show()
+
 def run():
     outline(read_data('data/data.txt'))
     freq(read_data('data/data.txt'))
+    most_freq_trend(read_data('data/data.txt'))
 
 if __name__ == "__main__":
     run()

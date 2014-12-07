@@ -124,9 +124,9 @@ def predict_by_most_freq(p):
     plt.plot(x, y, 'r-*')
 
     plt.sca(tail_plot)
-    plt.plot([util.ch2int(i)  for i in p.trend_answer_tail[:40]], 'b*-')
+    plt.plot([util.ch2int(i)  for i in p.trend_answer_tail], 'b*-')
     plt.sca(head_plot)
-    plt.plot([util.ch2int(i)  for i in p.trend_answer_head[:40]], 'r*-')
+    plt.plot([util.ch2int(i)  for i in p.trend_answer_head], 'r*-')
 
     save_name = os.path.join(BASE_DIR, 'figures/predict_by_most_freq.png')
     plt.savefig(save_name, dpi=96)

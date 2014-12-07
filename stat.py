@@ -1,3 +1,5 @@
+# -*- Encoding: utf-8 -*-
+from util import print_cutting_line
 
 def read_data(file_name):
     data = dict()
@@ -24,6 +26,7 @@ def prob(item):
         add(ch)
     return [res['A'], res['B'], res['C'], res['D']]
 
+@print_cutting_line
 def outline(data):
     for year, answer in sort_dict(data):
         print year, 'total: ', prob(answer[:40]),\

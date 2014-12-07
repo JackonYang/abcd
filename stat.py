@@ -67,7 +67,9 @@ def outline(datafile):
 class Cloze:
 
     def __init__(self, datafile):
+        self.probs = 20  # len(data.values()[0])
         self.std_answer = read_data(datafile)
+        self.most_freq()
 
     def predict(self, my_answer):
         scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
@@ -75,6 +77,19 @@ class Cloze:
         plt.plot(scores)
         plt.show()
 
+    def most_freq(self):
+        count = calc_freq(self.std_answer)
+        self.trend_freq = [0] * self.probs
+        self.trend_answer_head = ['Z'] * self.probs
+        self.trend_answer_tail = ['Z'] * self.probs
+        for answer, fq in sort_dict(count):
+            for i in range(self.probs):
+                if fq[i] > self.trend_freq[i]:
+                    self.trend_freq[i] = fq[i]
+                    self.trend_answer_head[i] = answer
+                    self.trend_answer_tail[i] = answer
+                if fq[i] == self.trend_freq[i]:
+                    self.trend_answer_tail[i] = answer
 
 @print_cutting_line
 def most_freq_trend(data):
@@ -110,26 +125,6 @@ def most_freq_trend(data):
     # plt.show()
 
 
-def most_freq(data):
-    count = calc_freq(data)
-    probs = 20
-    #probs = len(data.values()[0])
-    trend_freq = [0] * probs
-    trend_answer_head = ['Z'] * probs
-    trend_answer_tail = ['Z'] * probs
-    for answer, fq in sort_dict(count):
-        for i in range(probs):
-            if fq[i] > trend_freq[i]:
-                trend_freq[i] = fq[i]
-                trend_answer_head[i] = answer
-                trend_answer_tail[i] = answer
-            if fq[i] == trend_freq[i]:
-                trend_answer_tail[i] = answer
-
-    return [(i, trend_answer_head[i])  for i in range(probs) if trend_answer_head[i] == trend_answer_tail[i]]
-
-
-
 def run():
     filename = 'data/data.txt'
     outline(filename)
@@ -138,7 +133,12 @@ def run():
     # most_freq_trend(read_data('data/data.txt'))
 
     p = Cloze(filename)
-    p.predict(most_freq(data))
+
+    answer = [(i, p.trend_answer_head[i])
+            for i in range(p.probs)
+            if p.trend_answer_head[i] == p.trend_answer_tail[i]]
+
+    p.predict(answer)
 
 if __name__ == "__main__":
     run()

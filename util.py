@@ -7,7 +7,10 @@ def cutting_line(desc, length=60):
 line_length = 60
 def print_cutting_line(func):
     def _wrap(*args, **kwargs):
-        print cutting_line(func.__name__, line_length)
+        desc = func.__name__
+        if func.__doc__:
+            desc = func.__doc__
+        print cutting_line(desc, line_length)
         return func(*args, **kwargs)
     return _wrap
 

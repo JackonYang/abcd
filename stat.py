@@ -1,8 +1,11 @@
 # -*- Encoding: utf-8 -*-
+import os
+import matplotlib.pyplot as plt
+
 from util import print_cutting_line
 import util
 
-import matplotlib.pyplot as plt
+BASE_DIR = os.path.dirname(__file__)
 
 def read_data(file_name, has_reading=False):
     data = dict()
@@ -19,7 +22,8 @@ def read_data(file_name, has_reading=False):
 def sort_dict(orig):
     return sorted(orig.iteritems(), key=lambda item:item[0])
 
-def prob(item):
+def prob(one_answer):
+    """ 统计一组答案中, 各选项出现概率 """
     res = dict()
 
     def add(ch):
@@ -28,7 +32,7 @@ def prob(item):
         else:
             res[ch] = 1
 
-    for ch in item:
+    for ch in one_answer:
         add(ch)
     return [res.get('A', 0), res.get('B', 0), res.get('C', 0), res.get('D', 0)]
 
@@ -50,6 +54,7 @@ def calc_freq(data):
 
 @print_cutting_line
 def outline(datafile):
+    """ 45 个选择题总体分布率 """
     data = read_data(datafile, has_reading=True)
 
     print util.cutting_line('历年答案 ABCD 比例分布')
@@ -65,9 +70,10 @@ def outline(datafile):
 
 
 class Cloze:
+    """ 完型填空分析与预测 """
 
     def __init__(self, datafile):
-        self.probs = 20  # len(data.values()[0])
+        self.probs = 20  # len(data.values()[0]) 20 个完型填空题
         self.std_answer = read_data(datafile)
         self.most_freq()
 
@@ -116,12 +122,15 @@ def predict_by_most_freq(p):
     plt.plot([util.ch2int(i)  for i in p.trend_answer_tail[:40]], 'b*-')
     plt.sca(head_plot)
     plt.plot([util.ch2int(i)  for i in p.trend_answer_head[:40]], 'r*-')
-    plt.savefig('figures/predict_by_most_freq.png', dpi=96)
+    save_name = os.path.join(BASE_DIR, 'figures/predict_by_most_freq.png')
+    plt.savefig(save_name, dpi=96)
+    print 'figure saved in %s' % save_name
     # plt.show()  # for debug
 
 
 def run():
-    filename = 'data/data.txt'
+
+    filename = os.path.join(BASE_DIR, 'data/data.txt')
     outline(filename)
 
     p = Cloze(filename)

@@ -1,6 +1,5 @@
 # -*- Encoding: utf-8 -*-
 import os
-import random
 import matplotlib.pyplot as plt
 
 from util import print_cutting_line
@@ -152,10 +151,27 @@ def predict_by_most_freq_total(p):
 
 
 def predict_by_random(p):
-    answer = []
-    for i in range(20):
-        answer.append(random.randrange(1, 5, 1))
-    p.predict(answer)
+    ans1 = util.gen_answer()
+    ans2 = util.gen_answer()
+    ans3 = util.gen_answer()
+    ans4 = util.gen_answer()
+
+    plt.cla()
+    ans1_plot = plt.subplot(221)
+    ans2_plot = plt.subplot(222)
+    ans3_plot = plt.subplot(223)
+    ans4_plot = plt.subplot(224)
+
+    p.predict(ans1, ans1_plot)
+    p.predict(ans2, ans2_plot)
+    p.predict(ans3, ans3_plot)
+    p.predict(ans4, ans4_plot)
+
+    print ans1
+    print ans2
+    print ans3
+    print ans4
+    plt.show()
 
 
 def run():
@@ -167,7 +183,7 @@ def run():
 
     predict_by_most_freq(p)
     predict_by_most_freq_total(p)
+    predict_by_random(p)
 
 if __name__ == "__main__":
     run()
-

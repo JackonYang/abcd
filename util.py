@@ -1,4 +1,5 @@
 # -*- Encoding: utf-8 -*-
+import random
 
 def cutting_line(desc, length=60):
     half_len = int((length - len(desc) - 2) / 2)
@@ -27,3 +28,12 @@ def calc_score(my_answer, std_answer):
 
 def ch2int(ch):
     return ord(ch) - ord('A') + 1
+
+def int2ch(digit):
+    return chr(ord('A') + digit - 1)
+
+def gen_answer():
+    answer = []
+    for i in range(20):
+        answer.append(int2ch(random.randrange(1, 5, 1)))
+    return answer

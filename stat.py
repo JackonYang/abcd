@@ -32,29 +32,8 @@ def prob(item):
         add(ch)
     return [res.get('A', 0), res.get('B', 0), res.get('C', 0), res.get('D', 0)]
 
-@print_cutting_line
-def outline(datafile):
-    data = read_data(datafile, has_reading=True)
-    for year, answer in sort_dict(data):
-        print year, 'total: ', prob(answer[:40]),\
-            '\tcloze: ', prob(answer[:20]),\
-            '\tread_a: ', prob(answer[20:40])
-
-
-
-class Cloze:
-
-    def __init__(self, datafile):
-        self.std_answer = read_data(datafile)
-
-    def predict(self, my_answer):
-        scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
-
-        plt.plot(scores)
-        plt.show()
-
-
 def calc_freq(data):
+    """ 历年各题目各选项出现次数统计 """
     count = dict()
 
     def add(ch, i):
@@ -70,10 +49,32 @@ def calc_freq(data):
     return count
 
 @print_cutting_line
-def freq(data):
+def outline(datafile):
+    data = read_data(datafile, has_reading=True)
+
+    print util.cutting_line('历年答案 ABCD 比例分布')
+    for year, answer in sort_dict(data):
+        print year, 'total: ', prob(answer[:40]),\
+            '\tcloze: ', prob(answer[:20]),\
+            '\tread_a: ', prob(answer[20:40])
+
+    print util.cutting_line('历年各题目各选项出现次数统计')
     count = calc_freq(data)
     for answer, fq in sort_dict(count):
         print answer, fq
+
+
+class Cloze:
+
+    def __init__(self, datafile):
+        self.std_answer = read_data(datafile)
+
+    def predict(self, my_answer):
+        scores = [util.calc_score(my_answer, one_answer) for year, one_answer in sort_dict(self.std_answer)]
+
+        plt.plot(scores)
+        plt.show()
+
 
 @print_cutting_line
 def most_freq_trend(data):
@@ -134,7 +135,6 @@ def run():
     outline(filename)
 
     data = read_data(filename)
-    freq(data)
     # most_freq_trend(read_data('data/data.txt'))
 
     p = Cloze(filename)

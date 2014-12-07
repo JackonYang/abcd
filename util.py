@@ -1,6 +1,6 @@
 # -*- Encoding: utf-8 -*-
 
-def cutting_line(desc, length=26):
+def cutting_line(desc, length=60):
     half_len = int((length - len(desc) - 2) / 2)
     return '-'*half_len + ' ' + desc + ' ' + '-'*half_len
 

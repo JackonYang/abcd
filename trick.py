@@ -177,7 +177,7 @@ def predict_by_random(p):
 def run():
 
     filename = os.path.join(BASE_DIR, 'data/data.txt')
-    outline(filename)
+    # outline(filename)
 
     p = Cloze()
 

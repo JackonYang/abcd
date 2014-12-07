@@ -82,9 +82,12 @@ class Cloze:
 
         if fig:
             plt.sca(fig)
+        else:
+            plt.figure()
         plt.plot(scores)
         if not fig:
             plt.show()
+        return sum(scores) / len(scores)
 
     def most_freq(self):
         count = calc_freq(self.std_answer)
@@ -135,7 +138,15 @@ def run():
 
     p = Cloze(filename)
 
-    predict_by_most_freq(p)
+    # predict_by_most_freq(p)
+
+    plt.figure(2)
+    head_plot = plt.subplot(121)
+    tail_plot = plt.subplot(122)
+    a = p.predict(p.trend_answer_head, head_plot)
+    b = p.predict(p.trend_answer_tail, tail_plot)
+    print 'avg: %.2f, %.2f' % (a, b)
+    plt.show()
 
 
 if __name__ == "__main__":

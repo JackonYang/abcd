@@ -17,8 +17,12 @@ def print_cutting_line(func):
 
 def calc_score(my_answer, std_answer):
     score = 0
-    for i, ch in my_answer:
-        score += (std_answer[i] == ch)
+    if isinstance(my_answer[0], str):
+        for i, ch in zip(range(len(my_answer)), my_answer):
+            score += (std_answer[i] == ch)
+    else:
+        for i, ch in my_answer:
+            score += (std_answer[i] == ch)
     return 10.0*score/len(my_answer)
 
 def ch2int(ch):

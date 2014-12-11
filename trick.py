@@ -7,6 +7,7 @@ import util
 
 BASE_DIR = os.path.dirname(__file__)
 
+
 def read_data(file_name, has_reading=False):
     data = dict()
     with open(file_name) as f:
@@ -18,6 +19,7 @@ def read_data(file_name, has_reading=False):
                 item.extend(read_b)
             data[year] = item
     return util.sort_dict(data)
+
 
 def prob(one_answer):
     """ 统计一组答案中, 各选项出现概率 """
@@ -31,7 +33,9 @@ def prob(one_answer):
 
     for ch in one_answer:
         add(ch)
-    return [res.get('A', 0), res.get('B', 0), res.get('C', 0), res.get('D', 0)]
+    output = ['A', 'B', 'C', 'D']
+    return [res.get(ch, 0) for ch in output]
+
 
 def calc_freq(data):
     """ 历年各题目各选项出现次数统计 """
@@ -102,6 +106,7 @@ class Cloze:
                     self.trend_answer_tail[i] = answer
                 if fq[i] == self.trend_freq[i]:
                     self.trend_answer_tail[i] = answer
+
 
 @print_cutting_line
 def predict_by_most_freq(p):

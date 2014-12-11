@@ -12,7 +12,13 @@ class test_trick(unittest.TestCase):
         pass
 
     def test_prob(self):
-        self.assertEqual(1, 1)
+        test_data = [('CBACBADADBCADCDBCDA', [5, 4, 5, 5]),
+                     ('CBACBCDADBACDDABDAB', [5, 5, 4, 5]),
+                     ('AA', [2, 0, 0, 0]),
+                     ]
+        i = 0
+        for one_answer, expt in test_data:
+            self.assertEqual(prob(one_answer), expt)
  
 
 def add_test(suite):

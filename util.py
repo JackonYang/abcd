@@ -54,6 +54,18 @@ def top1(orig):
     return v_top, res
 
 
+def bottom1(orig):
+    v_top = 100
+    res = []
+    for k, v in orig.items():
+        if v < v_top:
+            v_top = v
+            res = [k]
+        elif v == v_top:
+            res.append(k)
+    return v_top, res
+
+
 def mean(lst):
     return sum(lst)/len(lst)
 

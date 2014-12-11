@@ -43,3 +43,9 @@ def sort_dict(orig):
 
 def mean(lst):
     return sum(lst)/len(lst)
+
+def inc_if_exist(item, data):
+    if item in data:
+        data[item] += 1
+    else:
+        data[item] = 1

@@ -21,20 +21,21 @@ def read_data(file_name, has_reading=False):
     return util.sort_dict(data)
 
 
-def prob(one_answer):
+def freq(one_answer):
     """ 统计一组答案中, 各选项出现概率 """
     res = dict()
 
-    def add(ch):
-        if ch in res:
-            res[ch] += 1
-        else:
-            res[ch] = 1
-
     for ch in one_answer:
-        add(ch)
+        util.inc_if_exist(ch, res)
     output = ['A', 'B', 'C', 'D']
     return [res.get(ch, 0) for ch in output]
+
+
+def freq_of_problem(data, num_probs=20):
+    count = [dict()] * num_probs
+
+    for year, answer in data:
+        pass
 
 
 def calc_freq(data):
@@ -65,7 +66,7 @@ def outline(datafile):
 
     print 'year | total | Cloze | Reading A'
     for year, answer in data:
-        print '%s | %s | %s | %s' % (year, fmt(prob(answer[:40])), fmt(prob(answer[:20])), fmt(prob(answer[20:40])))
+        print '%s | %s | %s | %s' % (year, fmt(freq(answer[:40])), fmt(freq(answer[:20])), fmt(freq(answer[20:40])))
 
     print util.cutting_line('完型各选项出现次数统计')
     count = calc_freq(data)

@@ -32,10 +32,12 @@ def freq(one_answer):
 
 
 def freq_of_problem(data, num_probs=20):
-    count = [dict()] * num_probs
+    count = [dict() for i in range(num_probs)]
 
     for year, answer in data:
-        pass
+        for i, ch in zip(range(num_probs), answer[:num_probs]):
+            util.inc_if_exist(ch, count[i])
+    return count
 
 
 def calc_freq(data):
@@ -80,6 +82,8 @@ class Cloze:
     def __init__(self, data=read_data('data/data.txt')):
         self.probs = 20  # len(data.values()[0]) 20 个完型填空题
         self.std_answer = data
+
+        count = freq_of_problem(self.std_answer)
         self.most_freq()
 
     def predict(self, my_answer, fig=None):
@@ -95,7 +99,6 @@ class Cloze:
             plt.show()
 
     def most_freq(self):
-        count = calc_freq(self.std_answer)
         self.trend_freq = [0] * self.probs
         self.trend_answer_head = ['Z'] * self.probs
         self.trend_answer_tail = ['Z'] * self.probs
@@ -107,6 +110,7 @@ class Cloze:
                     self.trend_answer_tail[i] = answer
                 if fq[i] == self.trend_freq[i]:
                     self.trend_answer_tail[i] = answer
+
 
 
 @print_cutting_line
@@ -229,7 +233,6 @@ def best_accuracy(full_data, step):
 def best_accuracy_trend(full_data):
     for step in range(3, 10):
         print '%s years a group, scores: %s' % (step, str(best_accuracy(full_data, step)).strip('[]'))
-
 
 
 def run():

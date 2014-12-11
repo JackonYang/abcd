@@ -26,7 +26,7 @@ def match_top1(known, target_answer, target_year):
         if target_answer[i] in answer:
             eq.append(i)
 
-    content = header + sp.join(count) + '\n' + sp.join(choice) + '\n' + target_year + sp + sp.join(target_answer)
+    content = sp.join(count) + '\n' + sp.join(choice) + '\n' 
     return single_top1, eq, content
 
 
@@ -38,14 +38,16 @@ def trend_top1(full_data):
         topn = []
 
         print cutting_line(target_year)
-        f.write(cutting_line(target_year))
+        f.write('\n')
+        f.write('\n')
+        f.write(header)
+        f.write(target_year + sp + sp.join(target_answer))
         f.write('\n')
 
         for group in range(target_idx, 4, -1):
             single_top1, eq, content = match_top1(full_data[target_idx-group: target_idx], target_answer, target_year)
 
             f.write(content)
-            f.write('\n')
 
             print single_top1
             print len(single_top1), set(eq) & set(single_top1)

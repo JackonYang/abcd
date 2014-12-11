@@ -54,11 +54,29 @@ def trend_top1(full_data):
     f.close()
 
 
+def top1_2015(full_data):
+    end = len(full_data)
+    f = open('predict_2015.md', 'w')
+    target_year, target_answer = '2015', ['Z'] * 20
+    topn = []
+
+    f.write(header)
+    for group in range(end, 4, -1):
+        single_top1, eq, content = match_top1(full_data[end-group: end], target_answer, target_year)
+
+        f.write(content)
+
+        print single_top1
+        print len(single_top1), set(eq) & set(single_top1)
+    f.close()
+
+
 def run():
     BASE_DIR = os.path.dirname(__file__)
     filename = os.path.join(BASE_DIR, 'data/data.txt')
     full_data = read_data(filename)
-    trend_top1(full_data)
+    #trend_top1(full_data)
+    top1_2015(full_data)
 
 
 

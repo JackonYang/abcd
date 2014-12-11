@@ -41,8 +41,18 @@ def gen_answer():
 def sort_dict(orig):
     return sorted(orig.iteritems(), key=lambda item:item[0])
 
+
 def top1(orig):
-    return sorted(orig.iteritems(), key=lambda item:item[0])
+    v_top = 0
+    res = []
+    for k, v in orig.items():
+        if v > v_top:
+            v_top = v
+            res = [k]
+        elif v == v_top:
+            res.append(k)
+    return v_top, res
+
 
 def mean(lst):
     return sum(lst)/len(lst)
